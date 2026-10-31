@@ -1,5 +1,7 @@
 {
-  "sumber": "https://… (tautan dataset dari kartu Kasus tim di Workbench)",
-  "berkas": ["data/latih.csv"],
-  "catatan": "Isi pada Sprint 0: versi/tanggal unduh, jumlah baris, dan perubahan (bila ada). Berkas data sendiri tidak di-commit."
+  "sumber": "https://github.com/sains-data/capstone-dl-2026-starter",
+  "berkas": [
+    "data/raw/"
+  ],
+  "catatan": "Direkam pada akhir Oktober 2026. Dataset primer direkam mandiri di meja uji (P01-P04). Klasifikasi 4 kelas bukaan pintu: buka penuh, buka setengah, buka sedikit, tutup. Masukan berupa citra 224x224."
 }
