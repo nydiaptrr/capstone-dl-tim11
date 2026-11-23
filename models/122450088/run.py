@@ -38,9 +38,7 @@ def siapkan_citra(X):
     if X.shape[1] not in (1, 3, 4):
         raise ValueError(f"Jumlah channel tidak didukung: {X.shape}")
 
-    if X.max() > 1:
-        X = X / 255.0
-
+    # src.protokol.data.muat sudah menerapkan standardisasi kanal dari data latih.
     return torch.tensor(X, dtype=torch.float32)
 
 
@@ -76,8 +74,9 @@ class Autoencoder(nn.Module):
             nn.ReLU(),
             nn.ConvTranspose2d(32, 16, 4, 2, 1),
             nn.ReLU(),
-            nn.ConvTranspose2d(16, channels, 4, 2, 1),
-            nn.Sigmoid()
+            # Citra sudah distandardisasi dan dapat bernilai negatif; keluaran linear
+            # memungkinkan decoder merekonstruksi skala yang sama dengan masukannya.
+            nn.ConvTranspose2d(16, channels, 4, 2, 1)
         )
 
     def forward(self, x):
