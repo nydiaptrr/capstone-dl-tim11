@@ -23,4 +23,7 @@ Total loss merupakan penjumlahan Mean Squared Error (MSE) untuk rekonstruksi cit
 - Learning rate: 0.001
 
 ## Keterbatasan
-Implementasi masih menggunakan konfigurasi awal dan perlu diuji kembali setelah dataset simulasi tersedia.
+Run awal pada data primer seed 1 menghasilkan akurasi validasi 0,243243 dan macro-F1 0,241228
+pada 37 sampel validasi (durasi 88,7 detik). Masukan model `[N, 3, 224, 224]` dan head
+menghasilkan logits untuk empat kelas. Data uji tidak dievaluasi. Tiga seed final, tuning, dan
+ablation dikerjakan pada Sprint 2.

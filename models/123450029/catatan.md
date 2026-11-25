@@ -32,7 +32,7 @@ loss validasi terendah dipakai untuk prediksi validasi.
 
 Perintah `python models/123450029/run.py --seed 1` selesai pada data tersedia dan menulis
 `results/123450029/metrics.json` serta `pred_val.npy`. Hasil validasi seed 1: akurasi 0,324324,
-macro-F1 0,248696, durasi 59,3 detik, 37 sampel validasi. Ini run awal, belum hasil tiga seed.
+macro-F1 0,248696, durasi 61,9 detik, 37 sampel validasi. Ini run awal, belum hasil tiga seed.
 Data uji tidak dievaluasi.
 
 Catatan tugas menyebut pengujian simulasi, tetapi checkout ini tidak memiliki sesi simulasi.

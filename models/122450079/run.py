@@ -79,6 +79,11 @@ def latih_dan_prediksi(seed: int, final: bool) -> tuple[np.ndarray, np.ndarray |
     torch.manual_seed(seed)
     np.random.seed(seed)
     Xtr, ytr, Xva, _, Xte, _ = data.muat()
+    # Muat mengembalikan citra yang distandardisasi dari latih. Pulihkan RGB 0–1
+    # dengan statistik yang sama sebelum normalisasi ImageNet pada backbone pralatih.
+    Xtr = data.balik_normalisasi(Xtr)
+    Xva = data.balik_normalisasi(Xva)
+    Xte = data.balik_normalisasi(Xte) if Xte is not None else None
     ytr = np.asarray(ytr).astype(np.int64)
     n_kelas = int(ytr.max()) + 1         # keluaran mengikuti jenis tugas (klasifikasi)
 
