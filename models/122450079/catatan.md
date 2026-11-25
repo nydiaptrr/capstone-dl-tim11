@@ -1,6 +1,8 @@
 # Catatan model 122450079
 
-Jalur: TL (transfer learning). Status: kerangka `run.py` sudah berjalan pada data simulasi; pelatihan pada data meja menunggu data (diambil minggu depan).
+Jalur: TL (transfer learning), ResNet18 ImageNet pralatih dibekukan dan head linear dilatih.
+Run primer seed 1 sudah selesai. Bobot resmi ResNet18 disimpan pada cache PyTorch lokal, tidak
+di-commit ke repositori.
 
 ## Alasan optimizer
 
@@ -14,7 +16,7 @@ Saat ini belum ada regularisasi eksplisit (weight decay 0, tanpa dropout). Backb
 
 | Konfigurasi | lr | epoch | batch | weight decay | val acc | val macro-F1 |
 |---|---|---|---|---|---|---|
-| Awal (backbone beku) | 1e-3 | 20 | 128 | 0 | menunggu data meja | menunggu data meja |
+| Awal (backbone beku) | 1e-3 | 20 | 128 | 0 | 0,270270 | 0,236957 |
 | Rencana | 1e-4 | 20 | 128 | 0 | - | - |
 | Rencana | 1e-3 | 40 | 128 | 1e-4 | - | - |
 
@@ -25,20 +27,25 @@ Direncanakan, dijalankan setelah data meja ada:
 1. Backbone beku vs membuka `layer4` (fine-tuning sebagian).
 2. Dengan vs tanpa weight decay pada head.
 
-Hasil: menunggu data meja.
+Hasil: belum dilakukan.
 
 ## Hasil 3 seed konfigurasi akhir
 
-Menunggu data meja. Uji pada data simulasi (acak) hanya membuktikan `run.py` berjalan sampai akhir untuk seed 1 dan 2; angkanya tidak bermakna dan tidak dilaporkan.
+Konfigurasi awal pada data primer meja. Belum hasil konfigurasi final tiga seed.
 
 | Seed | val acc | val macro-F1 |
 |---|---|---|
-| 1 | - | - |
+| 1 | 0,270270 | 0,236957 |
 | 2 | - | - |
 | 3 | - | - |
 
 ## Praproses dan ukuran model
 
 - Masukan model: citra 224x224, 3 kanal (1 kanal diulang jadi 3, resize bilinear), normalisasi mean/std ImageNet.
-- Keluaran: jumlah kelas dari label latih (klasifikasi; 10 kelas pada data simulasi).
+- Keluaran: jumlah kelas dari label latih (klasifikasi; 4 kelas pada data primer).
 - Fitur diekstrak sekali dari backbone beku, lalu hanya head linear yang dilatih (cepat di CPU laptop).
+
+Run `python models/122450079/run.py --seed 1` selesai pada data primer: 37 sampel validasi,
+macro-F1 0,236957, durasi 28,1 detik. Data uji tidak dievaluasi. Citra dari pemuat data
+distandardisasi memakai latih saja; sebelum backbone, dibalik ke RGB 0–1 memakai statistik latih
+yang sama, lalu dinormalisasi sesuai ImageNet.

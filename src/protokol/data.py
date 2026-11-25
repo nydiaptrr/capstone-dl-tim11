@@ -40,6 +40,9 @@ KELAS = {
     "tutup": 3,
 }
 
+_MEAN_LATIH: np.ndarray | None = None
+_STD_LATIH: np.ndarray | None = None
+
 
 def _baca_csv(path: Path) -> list[dict[str, str]]:
     if not path.is_file():
@@ -68,6 +71,8 @@ def _normalisasi_latih(X_train: np.ndarray, *lainnya: np.ndarray) -> tuple[np.nd
     mean = X_train.mean(axis=(0, 2, 3), dtype=np.float64).astype(np.float32)[None, :, None, None]
     std = X_train.std(axis=(0, 2, 3), dtype=np.float64).astype(np.float32)[None, :, None, None]
     std = np.maximum(std, 1e-6)
+    global _MEAN_LATIH, _STD_LATIH
+    _MEAN_LATIH, _STD_LATIH = mean.copy(), std.copy()
     X_train -= mean
     X_train /= std
     hasil = [X_train]
@@ -76,6 +81,16 @@ def _normalisasi_latih(X_train: np.ndarray, *lainnya: np.ndarray) -> tuple[np.nd
         X /= std
         hasil.append(X)
     return tuple(hasil)
+
+
+def balik_normalisasi(X: np.ndarray) -> np.ndarray:
+    """Kembalikan citra ke skala RGB 0–1 memakai statistik latih dari pemanggilan ``muat`` terakhir.
+
+    Dipakai TL untuk menerapkan normalisasi ImageNet yang diharapkan backbone pralatih.
+    """
+    if _MEAN_LATIH is None or _STD_LATIH is None:
+        raise RuntimeError("Panggil muat() sebelum balik_normalisasi()")
+    return np.clip(np.asarray(X, dtype=np.float32) * _STD_LATIH + _MEAN_LATIH, 0.0, 1.0)
 
 
 def muat():

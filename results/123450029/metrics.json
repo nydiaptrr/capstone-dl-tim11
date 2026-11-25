@@ -1,0 +1,13 @@
+{
+  "metrik": {
+    "val_acc": 0.324324,
+    "val_macro_f1": 0.248696
+  },
+  "seed": 1,
+  "data_hash": "b87eda5a3a7d5da25ecc14b3a603dfbd",
+  "perangkat": "cpu laptop",
+  "model": "trf",
+  "n_val": 37,
+  "n_test": 0,
+  "durasi_detik": 61.9
+}

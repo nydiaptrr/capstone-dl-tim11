@@ -16,11 +16,13 @@ lapisan linear terakhir. Pengaruhnya akan saya uji di ablation.
 ## Pencarian hyperparameter (tabel)
 | Konfigurasi | lr | batch | dropout | epoch | catatan |
 |---|---|---|---|---|---|
-| awal | 1e-3 | 32 | 0,3 | 8 | belum diuji di data meja (data baru direkam 6 Nov) |
+| awal | 1e-3 | 32 | 0,3 | 8 | seed 1 data primer: val macro-F1 0,261364, 37 sampel |
 
 ## Ablation (>= 2)
 Belum dikerjakan. Rencananya: (1) dengan dan tanpa Dropout, (2) dengan dan tanpa
 BatchNorm.
 
 ## Hasil 3 seed konfigurasi akhir
-Belum ada. Menunggu data meja dan pelatihan di Sprint 1 dan 2.
+Run awal seed 1 pada data primer: akurasi validasi 0,243243, macro-F1 0,261364, durasi 32,9
+detik. Masukan `[N, 3, 224, 224]`, keluaran 4 kelas. Data uji tidak dievaluasi. Tiga seed final
+dan ablation masih dikerjakan pada Sprint 2.

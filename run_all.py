@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -19,7 +20,11 @@ AKAR = Path(__file__).resolve().parent
 
 def jalankan(perintah: list[str]) -> None:
     print("$", " ".join(perintah), flush=True)
-    subprocess.run(perintah, check=True, cwd=AKAR)
+    # Output evaluate.py berisi panah Unicode; paksa UTF-8 agar subprocess juga sukses
+    # pada console Windows dengan code page lama.
+    env = os.environ.copy()
+    env.setdefault("PYTHONIOENCODING", "utf-8")
+    subprocess.run(perintah, check=True, cwd=AKAR, env=env)
 
 
 def main() -> None:
@@ -52,12 +57,13 @@ def main() -> None:
     for nim, daftar in ringkas.items():
         for h in daftar:
             mt = h["metrik"]
+            test_acc = f"{mt['test_acc']:.4f}" if "test_acc" in mt else "—"
             baris.append(f"| {nim} | {h.get('model', '')} | {h['seed']} | {mt['val_acc']:.4f} | {mt['val_macro_f1']:.4f} | "
-                         f"{mt.get('test_acc', float('nan')):.4f} | {h.get('durasi_detik', 0):.0f} | {h.get('perangkat', '')} |")
+                         f"{test_acc} | {h.get('durasi_detik', 0):.0f} | {h.get('perangkat', '')} |")
     (AKAR / "reports").mkdir(exist_ok=True)
     out = AKAR / "reports" / "hasil_komparasi.md"
     out.write_text("# Hasil komparasi (dibangkitkan run_all.py)\n\n" + "\n".join(baris) + "\n", encoding="utf-8")
-    print("tabel komparasi →", out.relative_to(AKAR))
+    print("tabel komparasi ->", out.relative_to(AKAR))
 
 
 if __name__ == "__main__":
